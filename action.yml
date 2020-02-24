@@ -9,6 +9,10 @@ inputs:
   token:
     description: "Github Token in order to add comment to PR"
     default: ""
+    required: true
+  risk-level:
+    description: "Set of SQL anti-patterns to check: 1,2, or 3"
+    default: "3"
     required: false
   postfixes:
     description: "List of file postfix to match ( separator: comma )"
@@ -20,4 +24,5 @@ runs:
   args:
     - ${{ inputs.post-comment }}
     - ${{ inputs.token }}
+    - ${{ inputs.risk-level }}
     - ${{ inputs.postfixes }}

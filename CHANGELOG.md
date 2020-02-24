@@ -2,6 +2,9 @@
 
 All notable changes to the "action-sqlcheck" will be documented in this file.
 
+## 0.5.0
+- Add new input parameter: risk-level
+
 ## 0.4.0
 - Use API to get pull request files and no longer use git command
 
