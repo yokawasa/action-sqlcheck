@@ -4,17 +4,42 @@ set -x
 TMPDIR="${GITHUB_WORKSPACE}/output"
 POST_COMMENT=$1
 GITHUB_TOKEN=$2
+POSTFIXES=$3
 
 if [ -z "$GITHUB_TOKEN" ]; then
   >&2 echo "Set the GITHUB_TOKEN input variable."
   exit 1
 fi
-
 if [ -z "$POST_COMMENT" ]; then
-  >&2 echo "Set the POST_COMMENT input variable."
+  POST_COMMENT="true"
+  exit 1
+fi
+if [ -z "$POSTFIXES" ]; then
+  POSTFIXES="sql"
   exit 1
 fi
 
+get_pr_files(){
+  local postfixes=$1
+  pr_num=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.number)
+  url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${pr_num}/files"
+  files=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+  matched_files=""
+  for f in ${files}
+  do
+    f_postfix=$(echo "${f##*.}" |  tr '[A-Z]' '[a-z]')
+    for p in $(echo ${postfixes} | tr ',' ' ' )
+    do
+      if [ "${p}" = "${f_postfix}" ]; then
+        matched_files="${matched_files} ${f}"
+      fi
+    done
+  done
+  echo ${matched_files}
+}
+
+echo ${files}
+}
 
 post_pr_comment() {
   local msg=$1
@@ -34,10 +59,7 @@ main() {
     mkdir -p ${TMPDIR}
   fi
 
-  # Get target sql files
-  sql_files=$(git diff origin/${GITHUB_BASE_REF}..origin/${GITHUB_HEAD_REF} \
-    --diff-filter=AM \
-    --name-only -- '*.sql')
+  sql_files=$(get_pr_files ${POSTFIXES} )
 
   # Run sqlcheck for each target file and get output
   risk_found_c=0

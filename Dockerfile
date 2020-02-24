@@ -19,7 +19,7 @@ RUN	apk --no-cache upgrade && \
 	make check && \
 	make install && \
 	rm -rf sqlcheck && \
-	apk --no-cache del --purge cmake gcc g++ make musl-dev
+	apk --no-cache del --purge cmake gcc g++ git make musl-dev
 
 COPY entrypoint.sh /entrypoint.sh
 
