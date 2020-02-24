@@ -2,9 +2,19 @@
 set -x
 
 TMPDIR="${GITHUB_WORKSPACE}/output"
-
 POST_COMMENT=$1
 GITHUB_TOKEN=$2
+
+if [ -z "$GITHUB_TOKEN" ]; then
+  >&2 echo "Set the GITHUB_TOKEN input variable."
+  exit 1
+fi
+
+if [ -z "$POST_COMMENT" ]; then
+  >&2 echo "Set the POST_COMMENT input variable."
+  exit 1
+fi
+
 
 post_pr_comment() {
   local msg=$1
