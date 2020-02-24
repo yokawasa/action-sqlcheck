@@ -99,7 +99,7 @@ ${o}
       (( c++ ))
     done
 
-    comment_msg="${comment_title}
+    comment_msg="##${comment_title}
 ${comment_body}   
 "
     post_pr_comment "${comment_msg}"
