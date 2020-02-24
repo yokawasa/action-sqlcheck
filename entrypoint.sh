@@ -88,18 +88,18 @@ main() {
       o=$(cat ${risk_outputs[${c}]})
       comment_body="${comment_body}
 <details><summary><code>${f}</code></summary>
-\`\`\`
 
+\`\`\`\n
 ${o}
-
 \`\`\`
 
 </details>
 "
+
       (( c++ ))
     done
 
-    comment_msg="##${comment_title}
+    comment_msg="## ${comment_title}
 ${comment_body}   
 "
     post_pr_comment "${comment_msg}"
