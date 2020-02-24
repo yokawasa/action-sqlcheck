@@ -1,0 +1,13 @@
+name: sqlcheck workflow
+on: pull_request
+
+jobs:
+  sqlcheck:
+    name: sqlcheck job 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: yokawasa/action-sqlcheck@v0.0.1
+      with:
+        post-comment: true
+        token: ${{ secrets.GITHUB_TOKEN }}
