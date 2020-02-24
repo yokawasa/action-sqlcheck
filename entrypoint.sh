@@ -12,11 +12,9 @@ if [ -z "$GITHUB_TOKEN" ]; then
 fi
 if [ -z "$POST_COMMENT" ]; then
   POST_COMMENT="true"
-  exit 1
 fi
 if [ -z "$POSTFIXES" ]; then
   POSTFIXES="sql"
-  exit 1
 fi
 
 get_pr_files(){
