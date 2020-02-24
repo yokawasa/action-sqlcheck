@@ -1,0 +1,18 @@
+name: "SQLCheck Action"
+description: "Automatically identify anti-patterns in SQL queries using SQLCheck"
+author: "yokawasa"
+inputs:
+  post-comment:
+    description: "Post comment to PR"
+    default: true
+    required: false
+  token:
+    description: "Github TWoken in order to add comment to PR"
+    default: ""
+    required: false
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.post-comment }}
+    - ${{ inputs.token }}
