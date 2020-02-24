@@ -1,6 +1,6 @@
 # action-sqlcheck
 
-GitHub Action that automatically identifies anti-patterns in SQL queries using [sqlcheck](https://github.com/jarulraj/sqlcheck) when PR is requested  and comment on the PR if risks are found in the queries  
+GitHub Actions that automatically identifies anti-patterns in SQL queries using [sqlcheck](https://github.com/jarulraj/sqlcheck) when PR is requested  and comment on the PR if risks are found in the queries  
 
 ![](assets/action-sqlcheck-pr-comment.png)
 
