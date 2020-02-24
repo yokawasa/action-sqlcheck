@@ -23,4 +23,4 @@ RUN	apk --no-cache upgrade && \
 
 COPY entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
