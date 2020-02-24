@@ -36,9 +36,6 @@ get_pr_files(){
   echo ${matched_files}
 }
 
-echo ${files}
-}
-
 post_pr_comment() {
   local msg=$1
   payload=$(echo '{}' | jq --arg body "${msg}" '.body = $body')
