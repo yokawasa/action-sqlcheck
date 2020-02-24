@@ -89,8 +89,12 @@ main() {
       comment_body="${comment_body}
 <details><summary><code>${f}</code></summary>
 \`\`\`
+
 ${o}
+
 \`\`\`
+
+</details>
 "
       (( c++ ))
     done
