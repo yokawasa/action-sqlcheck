@@ -98,7 +98,7 @@ ${o}
     comment_msg="${comment_title}
 ${comment_body}   
 "
-    post_pr_comment ${comment_msg}
+    post_pr_comment "${comment_msg}"
   fi
 }
 
