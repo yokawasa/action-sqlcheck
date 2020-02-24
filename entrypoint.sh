@@ -12,18 +12,16 @@ if [ -z "$GITHUB_TOKEN" ]; then
 fi
 if [ -z "$POST_COMMENT" ]; then
   POST_COMMENT="true"
-  exit 1
 fi
 if [ -z "$POSTFIXES" ]; then
   POSTFIXES="sql"
-  exit 1
 fi
 
 get_pr_files(){
   local postfixes=$1
   pr_num=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.number)
-  url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${pr_num}/files"
-  files=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+  request_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${pr_num}/files"
+  files=$(curl -s -X GET -G ${request_url} | jq -r '.[] | .filename')
   matched_files=""
   for f in ${files}
   do
@@ -36,9 +34,6 @@ get_pr_files(){
     done
   done
   echo ${matched_files}
-}
-
-echo ${files}
 }
 
 post_pr_comment() {
@@ -93,17 +88,21 @@ main() {
       o=$(cat ${risk_outputs[${c}]})
       comment_body="${comment_body}
 <details><summary><code>${f}</code></summary>
-\`\`\`
+
+\`\`\`\n
 ${o}
 \`\`\`
+
+</details>
 "
+
       (( c++ ))
     done
 
-    comment_msg="${comment_title}
+    comment_msg="## ${comment_title}
 ${comment_body}   
 "
-    post_pr_comment ${comment_msg}
+    post_pr_comment "${comment_msg}"
   fi
 }
 

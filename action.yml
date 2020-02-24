@@ -7,8 +7,12 @@ inputs:
     default: true
     required: false
   token:
-    description: "Github TWoken in order to add comment to PR"
+    description: "Github Token in order to add comment to PR"
     default: ""
+    required: false
+  postfixes:
+    description: "List of file postfix to match ( separator: comma )"
+    default: "sql"
     required: false
 runs:
   using: "docker"
@@ -16,3 +20,4 @@ runs:
   args:
     - ${{ inputs.post-comment }}
     - ${{ inputs.token }}
+    - ${{ inputs.postfixes }}
