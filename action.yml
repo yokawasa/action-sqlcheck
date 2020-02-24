@@ -10,7 +10,7 @@ inputs:
     description: "Github Token in order to add comment to PR"
     default: ""
     required: false
-  token:
+  postfixes:
     description: "List of file postfix to match ( separator: comma )"
     default: "sql"
     required: false
