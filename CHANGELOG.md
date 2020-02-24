@@ -2,6 +2,9 @@
 
 All notable changes to the "action-sqlcheck" will be documented in this file.
 
+## 0.3.0
+- Fixup bug: add git to install in Dockerfile 
+
 ## 0.2.0
 - Fixup bug: wrong entrypoint path in Dockerfile
 - Added varidation check - entrypoint.sh
