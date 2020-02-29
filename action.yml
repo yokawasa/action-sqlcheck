@@ -14,6 +14,10 @@ inputs:
     description: "Set of SQL anti-patterns to check: 1,2, or 3"
     default: "3"
     required: false
+  verbose:
+    description: "Add verbose warnings to SQLCheck analysis result"
+    default: false
+    required: false
   postfixes:
     description: "List of file postfix to match ( separator: comma )"
     default: "sql"
@@ -25,4 +29,5 @@ runs:
     - ${{ inputs.post-comment }}
     - ${{ inputs.token }}
     - ${{ inputs.risk-level }}
+    - ${{ inputs.verbose }}
     - ${{ inputs.postfixes }}
