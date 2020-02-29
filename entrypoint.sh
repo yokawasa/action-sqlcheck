@@ -5,7 +5,8 @@ TMPDIR="${GITHUB_WORKSPACE}/output"
 POST_COMMENT=$1
 GITHUB_TOKEN=$2
 RISK_LEVEL=$3
-POSTFIXES=$4
+VERBOSE=$4
+POSTFIXES=$5
 
 if [ -z "$GITHUB_TOKEN" ]; then
   >&2 echo "Set the GITHUB_TOKEN input variable."
@@ -16,6 +17,9 @@ if [ -z "$POST_COMMENT" ]; then
 fi
 if [ -z "$RISK_LEVEL" ]; then
   RISK_LEVEL="3"
+fi
+if [ -z "$VERBOSE" ]; then
+  VERBOSE="false"
 fi
 if [ -z "$POSTFIXES" ]; then
   POSTFIXES="sql"
@@ -69,7 +73,11 @@ main() {
     if [ -f ${sql_file} ]
     then
       output_file="${TMPDIR}/${RANDOM}"
-      /usr/local/bin/sqlcheck -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
+      if [ "${VERBOSE}" = "true" ]; then
+        /usr/local/bin/sqlcheck -v -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
+      else
+        /usr/local/bin/sqlcheck -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
+      fi
       RET=$?
       if [ $RET -ne 0 ]; then   # risk found
         risk_files[${risk_found_c}]=${sql_file}
