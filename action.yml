@@ -31,3 +31,6 @@ runs:
     - ${{ inputs.risk-level }}
     - ${{ inputs.verbose }}
     - ${{ inputs.postfixes }}
+branding:
+  icon: 'check-circle'
+  color: 'black'
