@@ -29,7 +29,8 @@ get_pr_files(){
   local postfixes=$1
   pr_num=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.number)
   request_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${pr_num}/files"
-  files=$(curl -s -X GET -G ${request_url} | jq -r '.[] | .filename')
+  auth_header="Authorization: token $GITHUB_TOKEN"
+  files=$(curl -s -H "$auth_header" -X GET -G ${request_url} | jq -r '.[] | .filename')
   matched_files=""
   for f in ${files}
   do
