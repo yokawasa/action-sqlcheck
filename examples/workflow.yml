@@ -7,8 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: yokawasa/action-sqlcheck@v0.0.5
+    - uses: yokawasa/action-sqlcheck@v1.1.0
       with:
         post-comment: true
         risk-level: 3
+        verbose: false
         token: ${{ secrets.GITHUB_TOKEN }}

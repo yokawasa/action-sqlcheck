@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: yokawasa/action-sqlcheck@v1.0.0
+    - uses: yokawasa/action-sqlcheck@v1.1.0
       with:
         post-comment: true
         risk-level: 3
