@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM ubuntu:18.04
 
 LABEL com.github.actions.name="SQLCheck Action"
 LABEL com.github.actions.description="GitHub Action for sqlcheck CLI"
@@ -7,16 +7,11 @@ LABEL com.github.actions.color="red"
 LABEL maintainer="Yoichi Kawasaki <yokawasa@gmail.com>"
 LABEL repository="https://github.com/yokawasa/action-sqlcheck"
 
-RUN apk --no-cache upgrade && \
-  apk --no-cache add cmake gcc g++ git libstdc++ make musl-dev \
-  bash ca-certificates curl jq && \
-  git clone --recursive https://github.com/jarulraj/sqlcheck.git && \
-  cd sqlcheck && ./bootstrap && cd build && \
-  cmake -DCMAKE_BUILD_TYPE=RELEASE .. && \
-  make && make check && make install && \
-  rm -rf sqlcheck && \
-  apk --no-cache del --purge cmake gcc g++ git make musl-dev
-
+# latest sqlcheck: https://github.com/jarulraj/sqlcheck/releases
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends ca-certificates curl jq && \
+  curl -L -O https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.deb && \
+  dpkg -i sqlcheck-x86_64.deb && \
+  rm -rf /var/lib/apt/lists/*
 COPY entrypoint.sh /entrypoint.sh
-
 ENTRYPOINT ["/entrypoint.sh"]

@@ -2,6 +2,9 @@
 
 All notable changes to the "action-sqlcheck" will be documented in this file.
 
+## 1.2.0
+- Change base image from alpine to ubuntu to speed up the action spin up
+
 ## 1.1.0
 - Fixup a bug (PR #12) thanks to @NathanBurkett - The cURL request fails if the repository is not public
 

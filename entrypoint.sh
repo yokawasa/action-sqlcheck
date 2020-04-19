@@ -75,9 +75,9 @@ main() {
     then
       output_file="${TMPDIR}/${RANDOM}"
       if [ "${VERBOSE}" = "true" ]; then
-        /usr/local/bin/sqlcheck -v -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
+        /usr/bin/sqlcheck -v -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
       else
-        /usr/local/bin/sqlcheck -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
+        /usr/bin/sqlcheck -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
       fi
       RET=$?
       if [ $RET -ne 0 ]; then   # risk found
