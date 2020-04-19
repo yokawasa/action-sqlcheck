@@ -79,8 +79,9 @@ main() {
       else
         /usr/bin/sqlcheck -r ${RISK_LEVEL} -f ${sql_file} > ${output_file}
       fi
-      RET=$?
-      if [ $RET -ne 0 ]; then   # risk found
+      if grep "^No issues found." ${output_file} > /dev/null 2>&1; then
+        echo "NO issues found: ${sql_file}"
+      else  # Issues found
         risk_files[${risk_found_c}]=${sql_file}
         risk_outputs[${risk_found_c}]=${output_file}
         (( risk_found_c++ ))

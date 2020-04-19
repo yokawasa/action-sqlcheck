@@ -2,7 +2,9 @@
 
 All notable changes to the "action-sqlcheck" will be documented in this file.
 
-## 1.2.0
+## 1.2.1
+- No longer use the latest sqlcheck BUT `sqlcheck v1.2` for immutability
+- fix entrypoint.sh as sqlcheck v1.2 exits with code 0 even if anti-patterns or hints are found
 - Change base image from alpine to ubuntu to speed up the action spin up
 
 ## 1.1.0
