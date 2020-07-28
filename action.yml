@@ -19,11 +19,11 @@ inputs:
     default: false
     required: false
   postfixes:
-    description: "List of file postfix to match ( separator: comma )"
+    description: "List of file postfix to match. Supported separators are comma (deprecating) and retrun in multi-line string"
     default: "sql"
     required: false
   directories:
-    description: "Path(s) of directory under which the action check any files whether they are part of the repository or not. By default, the action checks only files in PR queries. By specifying directories the action no longer check files in PR queries but files under the directories (maxdepth 3)"
+    description: "Path(s) of directory under which the action check any files whether they are part of the repository or not. By default, the action checks only files in PR queries. By specifying directories the action no longer check files in PR queries but files under the directories (maxdepth 3). Supported separator is return in multi-line string"
     default: ""
     required: false
 outputs:
