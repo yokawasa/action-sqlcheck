@@ -15,22 +15,32 @@ Supports `pull_request` event type.
 |`token`|true|""|GitHub Token in order to add comment to PR|
 |`risk-level`|false|3|Set of SQL anti-patterns to check: 1,2, or 3<br>- 1 (all anti-patterns, default)<br>- 2 (only medium and high risk anti-patterns)<br> - 3 (only high risk anti-patterns) |
 |`verbose`|false|false|Add verbose warnings to SQLCheck analysis result|
-|`postfixes`|false|"sql"|List of file postfix to match ( separator: comma )|
+|`postfixes`|false|"sql"| List of file postfix to match. Supported separators are comma (deprecating) and retrun in multi-line string |
+|`directories`|false|""| Path(s) of directory under which the action check any files whether they are part of the repository or not. By default, the action checks only files in PR queries. By specifying directories the action no longer check files in PR queries but files under the directories (maxdepth 3). Supported separator is return in multi-line string |
+
+### Outputs
+
+|Parameter|Description|
+|:--:|:--:|
+|`issue-found`| A boolean value to indicate an issue was found in the files that sqlcheck action checked |
 
 ## Sample Workflow
 
-> examples/workflow.yml
-```yml
-name: sqlcheck workflow
+### Sample1
+
+> .github/workflows/test1.yml
+
+```yaml
+name: sqlcheck workflow1
 on: pull_request
 
 jobs:
   sqlcheck:
-    name: sqlcheck job 
+    name: sqlcheck job
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: yokawasa/action-sqlcheck@v1.2.1
+    - uses: yokawasa/action-sqlcheck@v1.3.0
       with:
         post-comment: true
         risk-level: 3
@@ -38,3 +48,36 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### Sample2 ( postfixes and directories inputs )
+
+> .github/workflows/test2.yml
+
+```yaml
+name: sqlcheck workflow2
+on: pull_request
+
+jobs:
+  sqlcheck:
+    name: sqlcheck job
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: yokawasa/action-sqlcheck@v1.3.0
+      id: sqlcheck
+      with:
+        post-comment: true
+        risk-level: 3
+        verbose: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+        postfixes: |
+          sql
+          sqlx
+          schema
+        directories: |
+          sql
+          build/sql_dir
+          tests/sql_dir
+    - name: Get output
+      run: echo "Issues found in previous step"
+      if: steps.sqlcheck.outputs.issue-found
+```

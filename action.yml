@@ -22,6 +22,13 @@ inputs:
     description: "List of file postfix to match ( separator: comma )"
     default: "sql"
     required: false
+  directories:
+    description: "Path(s) of directory under which the action check any files whether they are part of the repository or not. By default, the action checks only files in PR queries. By specifying directories the action no longer check files in PR queries but files under the directories"
+    default: ""
+    required: false
+outputs:
+  issue-found:
+    description: 'A boolean value to indicate an issue was found in the files that sqlcheck action checked'
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -31,6 +38,7 @@ runs:
     - ${{ inputs.risk-level }}
     - ${{ inputs.verbose }}
     - ${{ inputs.postfixes }}
+    - ${{ inputs.directories }}
 branding:
   icon: 'check-circle'
   color: 'black'

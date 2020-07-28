@@ -7,21 +7,22 @@ GITHUB_TOKEN=$2
 RISK_LEVEL=$3
 VERBOSE=$4
 POSTFIXES=$5
+DIRECTORIES=$6
 
-if [ -z "$GITHUB_TOKEN" ]; then
+if [ -z "${GITHUB_TOKEN}" ]; then
   >&2 echo "Set the GITHUB_TOKEN input variable."
   exit 1
 fi
-if [ -z "$POST_COMMENT" ]; then
+if [ -z "${POST_COMMENT}" ]; then
   POST_COMMENT="true"
 fi
-if [ -z "$RISK_LEVEL" ]; then
+if [ -z "${RISK_LEVEL}" ]; then
   RISK_LEVEL="3"
 fi
-if [ -z "$VERBOSE" ]; then
+if [ -z "${VERBOSE}" ]; then
   VERBOSE="false"
 fi
-if [ -z "$POSTFIXES" ]; then
+if [ -z "${POSTFIXES}" ]; then
   POSTFIXES="sql"
 fi
 
@@ -45,6 +46,26 @@ get_pr_files(){
   echo ${matched_files}
 }
 
+get_directories_files(){
+  local directories=$1
+  local postfixes=$2
+  matched_files=""
+  for base in $(echo ${directories} | tr ',' ' ' )
+  do
+    for f in $(find ${base} -maxdepth 3 -type f)
+    do
+      f_postfix=$(echo "${f##*.}" |  tr '[A-Z]' '[a-z]')
+      for p in $(echo ${postfixes} | tr ',' ' ' )
+      do
+        if [ "${p}" = "${f_postfix}" ]; then
+          matched_files="${matched_files} ${f}"
+        fi
+      done
+    done
+  done
+  echo ${matched_files}
+}
+
 post_pr_comment() {
   local msg=$1
   payload=$(echo '{}' | jq --arg body "${msg}" '.body = $body')
@@ -63,7 +84,13 @@ main() {
     mkdir -p ${TMPDIR}
   fi
 
-  sql_files=$(get_pr_files ${POSTFIXES} )
+  postfixes_csv=$(echo "${POSTFIXES}" | tr ' ' ',' ) 
+  sql_files=$(get_pr_files "${postfixes_csv}" )
+  if [ ! -z "${DIRECTORIES}" ]; then
+    directories_csv=$(echo "${DIRECTORIES}" | tr ' ' ',' )
+    sql_files_under_dirs=$(get_directories_files "${directories_csv}" "${postfixes_csv}")
+    sql_files=$(echo ${sql_files} ${sql_files_under_dirs})  
+  fi
 
   # Run sqlcheck for each target file and get output
   risk_found_c=0
@@ -117,6 +144,9 @@ ${o}
 ${comment_body}   
 "
     post_pr_comment "${comment_msg}"
+  fi
+  if [ ${risk_found_c} -gt 0 ]; then
+    echo "::set-output name=issue-found::true"
   fi
 }
 
