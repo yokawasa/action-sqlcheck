@@ -15,17 +15,19 @@ Supports `pull_request` event type.
 |`token`|true|""|GitHub Token in order to add comment to PR|
 |`risk-level`|false|3|Set of SQL anti-patterns to check: 1,2, or 3<br>- 1 (all anti-patterns, default)<br>- 2 (only medium and high risk anti-patterns)<br> - 3 (only high risk anti-patterns) |
 |`verbose`|false|false|Add verbose warnings to SQLCheck analysis result|
-|`postfixes`|false|"sql"|List of file postfix to match |
-|`directories`|false|""| Path(s) of directory under which the action check any files whether they are part of the repository or not. By default, the action checks only files in PR queries. By specifying directories the action no longer check files in PR queries but files under the directories (maxdepth 3)|
+|`postfixes`|false|"sql"| List of file postfix to match. Supported separators are comma (deprecating) and retrun in multi-line string |
+|`directories`|false|""| Path(s) of directory under which the action check any files whether they are part of the repository or not. By default, the action checks only files in PR queries. By specifying directories the action no longer check files in PR queries but files under the directories (maxdepth 3). Supported separator is return in multi-line string |
 
 ### Outputs
+
 |Parameter|Description|
 |:--:|:--:|
-|`issue-found`| A boolean value to indicate an issue was found in the files that sqlcheck action checked|
-
+|`issue-found`| A boolean value to indicate an issue was found in the files that sqlcheck action checked |
 
 ## Sample Workflow
+
 ### Sample1
+
 > .github/workflows/test1.yml
 
 ```yaml
@@ -47,6 +49,7 @@ jobs:
 ```
 
 ### Sample2 ( postfixes and directories inputs )
+
 > .github/workflows/test2.yml
 
 ```yaml
