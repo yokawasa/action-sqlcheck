@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL com.github.actions.name="SQLCheck Action"
 LABEL com.github.actions.description="GitHub Action for sqlcheck CLI"
