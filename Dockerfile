@@ -10,7 +10,7 @@ LABEL repository="https://github.com/yokawasa/action-sqlcheck"
 # latest sqlcheck: https://github.com/jarulraj/sqlcheck/releases
 RUN apt-get update && \
   apt-get install -y --no-install-recommends ca-certificates curl jq && \
-  curl -L -O https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.deb && \
+  curl -L -O https://github.com/jarulraj/sqlcheck/releases/download/v1.3/sqlcheck-x86_64.deb && \
   dpkg -i sqlcheck-x86_64.deb && \
   rm -rf /var/lib/apt/lists/*
 COPY entrypoint.sh /entrypoint.sh
