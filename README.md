@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: yokawasa/action-sqlcheck@v1.3.0
+    - uses: yokawasa/action-sqlcheck@v1.4.0
       with:
         post-comment: true
         risk-level: 3
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: yokawasa/action-sqlcheck@v1.3.0
+    - uses: yokawasa/action-sqlcheck@v1.4.0
       id: sqlcheck
       with:
         post-comment: true
