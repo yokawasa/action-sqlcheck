@@ -9,7 +9,7 @@ jobs:
     - uses: ./
       id: sqlcheck
       with:
-        post-comment: true
+        post-comment: false
         risk-level: 3
         verbose: false
         token: ${{ secrets.GITHUB_TOKEN }}
