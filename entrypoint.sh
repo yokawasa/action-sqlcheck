@@ -52,12 +52,12 @@ get_directories_files(){
   local postfixes=$2
   local IFS=$'\n'
   matched_files=""
-  for base in $(echo ${directories} | tr ',' ' ' )
+  for base in ${directories}
   do
     for f in $(find ${base} -maxdepth 3 -type f)
     do
       f_postfix=$(echo "${f##*.}" |  tr '[A-Z]' '[a-z]')
-      for p in $(echo ${postfixes} | tr ',' ' ' )
+      for p in ${postfixes}
       do
         if [ "${p}" = "${f_postfix}" ]; then
           matched_files="${matched_files} ${f}"
@@ -86,10 +86,10 @@ main() {
     mkdir -p ${TMPDIR}
   fi
 
-  postfixes_csv=$(echo "${POSTFIXES}" | sed -e 's/[ \t]*$//' | tr ' ' ',' ) 
+  postfixes_csv=$(echo "${POSTFIXES}" | sed -e 's/[ \t]*$//') 
   sql_files=$(get_pr_files "${postfixes_csv}" )
   if [ ! -z "${DIRECTORIES}" ]; then
-    directories_csv=$(echo "${DIRECTORIES}" | sed -e 's/[ \t]*$//' |  tr ' ' ',' )
+    directories_csv=$(echo "${DIRECTORIES}" | sed -e 's/[ \t]*$//')
     sql_files_under_dirs=$(get_directories_files "${directories_csv}" "${postfixes_csv}")
     sql_files=$(echo ${sql_files} ${sql_files_under_dirs})  
   fi
