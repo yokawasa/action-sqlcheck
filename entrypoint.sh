@@ -148,7 +148,7 @@ ${comment_body}
     post_pr_comment "${comment_msg}"
   fi
   if [ ${risk_found_c} -gt 0 ]; then
-    echo "::set-output name=issue-found::true"
+    echo "issue-found=true" >> $GITHUB_OUTPUT
   fi
 }
 
