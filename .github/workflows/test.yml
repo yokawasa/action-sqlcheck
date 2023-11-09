@@ -1,0 +1,20 @@
+name: "action-sqlcheck Test"
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./
+      id: sqlcheck
+      with:
+        post-comment: true
+        risk-level: 3
+        verbose: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        directories: |
+          examples 
+    - name: Get output
+      run: echo "Issues found in previous step"
+      if: steps.sqlcheck.outputs.issue-found
