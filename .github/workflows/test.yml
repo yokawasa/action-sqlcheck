@@ -37,7 +37,7 @@ jobs:
           sqlx
           schema
         directories: |
-          examples 
+          examplesx 
           build/sql_dir
           tests/sql_dir
     - name: Check results
