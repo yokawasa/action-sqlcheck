@@ -28,6 +28,7 @@ fi
 
 get_pr_files(){
   local postfixes=$1
+  local IFS=$'\n'
   pr_num=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.number)
   request_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${pr_num}/files"
   auth_header="Authorization: token $GITHUB_TOKEN"
@@ -49,6 +50,7 @@ get_pr_files(){
 get_directories_files(){
   local directories=$1
   local postfixes=$2
+  local IFS=$'\n'
   matched_files=""
   for base in $(echo ${directories} | tr ',' ' ' )
   do
