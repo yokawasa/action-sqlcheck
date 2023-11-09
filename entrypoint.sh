@@ -86,10 +86,10 @@ main() {
     mkdir -p ${TMPDIR}
   fi
 
-  postfixes_csv=$(echo "${POSTFIXES}" | tr ' ' ',' ) 
+  postfixes_csv=$(echo "${POSTFIXES}" | sed -e 's/[ \t]*$//' | tr ' ' ',' ) 
   sql_files=$(get_pr_files "${postfixes_csv}" )
   if [ ! -z "${DIRECTORIES}" ]; then
-    directories_csv=$(echo "${DIRECTORIES}" | tr ' ' ',' )
+    directories_csv=$(echo "${DIRECTORIES}" | sed -e 's/[ \t]*$//' |  tr ' ' ',' )
     sql_files_under_dirs=$(get_directories_files "${directories_csv}" "${postfixes_csv}")
     sql_files=$(echo ${sql_files} ${sql_files_under_dirs})  
   fi
