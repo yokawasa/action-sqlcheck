@@ -2,7 +2,7 @@ name: "action-sqlcheck Test"
 on: pull_request
 
 jobs:
-  test:
+  test1:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -15,6 +15,33 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         directories: |
           examples 
-    - name: Get output
-      run: echo "Issues found in previous step"
-      if: steps.sqlcheck.outputs.issue-found
+    - name: Check results
+      run: |
+        echo "Issues NOT found in previous step!"
+        exit 1
+      if: steps.sqlcheck.outputs.issue-found != 'true'
+
+  test2:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./
+      id: sqlcheck
+      with:
+        post-comment: false
+        risk-level: 3
+        verbose: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        postfixes: |
+          sql
+          sqlx
+          schema
+        directories: |
+          examples
+          build/sql_dir
+          tests/sql_dir
+    - name: Check results
+      run: |
+        echo "Issues NOT found in previous step!"
+        exit 1
+      if: steps.sqlcheck.outputs.issue-found != 'true'
